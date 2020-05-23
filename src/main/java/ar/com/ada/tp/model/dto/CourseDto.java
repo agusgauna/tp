@@ -1,5 +1,6 @@
 package ar.com.ada.tp.model.dto;
 
+import ar.com.ada.tp.model.entity.Company;
 import ar.com.ada.tp.model.entity.Inscription;
 import ar.com.ada.tp.model.entity.Scholarship;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,6 +33,9 @@ public class CourseDto implements Serializable {
 
     @NotBlank(message = "category is required")
     private String category;
+
+    @JsonIgnoreProperties(value = "courses")
+    private Company company;
 
     @JsonIgnoreProperties(value = "courses")
     private Set<Inscription> inscriptions;

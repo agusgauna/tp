@@ -34,7 +34,7 @@ public class InformationDto implements Serializable {
     @NotNull(message = "howMany is required")
     private Integer howMany;
 
-    @JsonIgnoreProperties(value = "informations")
+    @JsonIgnoreProperties(value = "information")
     private Set<Participant> participants;
 
     public InformationDto setId(Long id) {

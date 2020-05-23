@@ -45,10 +45,10 @@ public class CompanyDto implements Serializable {
     @NotNull(message = "telephone is required")
     private Integer telephone;
 
-    @JsonIgnoreProperties(value = "companies")
+    @JsonIgnoreProperties(value = "company")
     private Set<Representative> representatives;
 
-    @JsonIgnoreProperties(value = "companies")
+    @JsonIgnoreProperties(value = "company")
     private Set<Course> courses;
 
     public CompanyDto setId(Long id) {

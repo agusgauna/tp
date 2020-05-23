@@ -38,7 +38,7 @@ public class Participant {
     private Information information;
 
     @ManyToMany(mappedBy = "participants")
-    private Set<Course> courses;
+    private Set<Inscription> inscriptions;
 
     @ManyToMany(mappedBy = "participants")
     private Set<Scholarship> scholarships;

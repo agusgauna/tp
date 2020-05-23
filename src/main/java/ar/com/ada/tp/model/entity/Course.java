@@ -28,8 +28,13 @@ public class Course {
     @Column(nullable = false, length = 50)
     private Integer cost;
 
+
     @Column(nullable = false, length = 100)
     private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "Company_id", nullable = true)
+    private Company company;
 
     @ManyToMany(mappedBy = "courses")
     private Set<Inscription> inscriptions;

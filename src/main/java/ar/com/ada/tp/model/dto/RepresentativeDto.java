@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -25,7 +26,7 @@ public class RepresentativeDto implements Serializable {
     @NotBlank(message = "typeDocument is required")
     private String typeDocument;
 
-
+    @NotNull(message = "document is required")
     private Integer document;
 
     @NotBlank(message = "position is required")
