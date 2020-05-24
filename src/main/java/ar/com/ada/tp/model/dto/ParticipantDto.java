@@ -1,6 +1,5 @@
 package ar.com.ada.tp.model.dto;
 
-import ar.com.ada.tp.model.entity.Course;
 import ar.com.ada.tp.model.entity.Information;
 import ar.com.ada.tp.model.entity.Inscription;
 import ar.com.ada.tp.model.entity.Scholarship;
