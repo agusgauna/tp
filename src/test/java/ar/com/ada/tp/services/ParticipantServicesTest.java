@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -60,5 +61,27 @@ class ParticipantServicesTest {
         assertThat(participantDtos.size()).isEqualTo(2);
         assertThat(participantDtos.get(0).getName()).isEqualTo("Lorena");
         assertThat(participantDtos.get(0).getLastName()).isEqualTo("Gaudio");
+    }
+
+    @Test
+    public void whenSaveReturnParticipantDtoSaved() {
+        //GIVEN
+        Participant participant = new Participant()
+                .setId(1L)
+                .setName("Lorena")
+                .setLastName("Gaudio")
+                .setBirthday(LocalDate.parse("1988-05-23"))
+                .setGender("Femenino")
+                .setAddress("Lomas de Zamora");
+
+        when(participantRepository.save(any(Participant.class))).thenReturn(participant);
+        ParticipantDto dto = new ParticipantDto();
+
+        //WHEN
+        ParticipantDto dtoSaved = participantServices.save(dto);
+
+        //THEN
+        assertThat(dtoSaved.getId()).isEqualTo(1);
+
     }
 }
