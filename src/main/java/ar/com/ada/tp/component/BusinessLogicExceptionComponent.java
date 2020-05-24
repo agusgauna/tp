@@ -12,7 +12,7 @@ public class BusinessLogicExceptionComponent {
         ApiEntityError apiEntityError = new ApiEntityError(
                 entityName,
                 "NotFound",
-                "The actor with id " + id + "does not exist"
+                entityName + " with id " + id + "does not exist"
         );
         throw new BusinessLogicException(
                 entityName + "not exist",

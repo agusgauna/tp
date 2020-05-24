@@ -44,7 +44,7 @@ class RestClientTest {
     }
 
     @Test
-    public void whenPostndpointTodosThenReturnTodoResponseCreate() {
+    public void whenPostEndpointTodosThenReturnTodoResponseCreate() {
         // GIVEN
         String url = "https://jsonplaceholder.typicode.com/todos";
         RestClient<Todo> client = new RestClient();
