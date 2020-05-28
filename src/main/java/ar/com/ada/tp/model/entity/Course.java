@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.util.Set;
 
 @Getter
@@ -31,6 +32,9 @@ public class Course {
 
     @Column(nullable = false, length = 100)
     private String category;
+
+    @Column(nullable = false, length = 10)
+    private Integer quota;
 
     @ManyToOne
     @JoinColumn(name = "Company_id", nullable = true)

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("representativeServices")
 public class RepresentativeServices implements Services<RepresentativeDto>{
@@ -37,11 +38,22 @@ public class RepresentativeServices implements Services<RepresentativeDto>{
 
     @Override
     public RepresentativeDto save(RepresentativeDto dto) {
-        return null;
+        Representative representativeToSave = representativeMapper.toEntity(dto, context);
+        Representative representativeSaved = representativeRepository.save(representativeToSave);
+        RepresentativeDto representativeDtoSaved = representativeMapper.toDto(representativeSaved, context);
+
+        return representativeDtoSaved;
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Representative> byIdOptional = representativeRepository.findById(id);
+        if (byIdOptional.isPresent()) {
+            Representative representativeToDelete = byIdOptional.get();
+            representativeRepository.delete(representativeToDelete);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
+        }
 
     }
 }

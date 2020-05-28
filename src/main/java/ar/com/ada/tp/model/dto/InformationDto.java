@@ -35,7 +35,7 @@ public class InformationDto implements Serializable {
     private Integer howMany;
 
     @JsonIgnoreProperties(value = "information")
-    private Set<Participant> participants;
+    private Participant participant;
 
     public InformationDto setId(Long id) {
         this.id = id;

@@ -19,6 +19,6 @@ public class InscriptionDto implements Serializable {
     @JsonIgnoreProperties(value = "inscriptions")
     private Set<Course> courses;
 
-    @JsonIgnoreProperties(value = "inscriptions")
-    private Set<Participant> participants;
+    @JsonIgnoreProperties(value = "inscription")
+    private Participant participant;
 }

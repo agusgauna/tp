@@ -33,7 +33,7 @@ public class Participant {
     @Column(nullable = false, length = 100)
     private String address;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "Information_id", nullable = true)
     private Information information;
 

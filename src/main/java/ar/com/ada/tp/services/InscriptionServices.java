@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("inscriptionServices")
 public class InscriptionServices implements Services<InscriptionDto>{
@@ -37,11 +38,22 @@ public class InscriptionServices implements Services<InscriptionDto>{
 
     @Override
     public InscriptionDto save(InscriptionDto dto) {
-        return null;
+        Inscription inscriptionToSave = inscriptionMapper.toEntity(dto, context);
+        Inscription inscriptionSaved = inscriptionRepository.save(inscriptionToSave);
+        InscriptionDto inscriptionDtoSaved = inscriptionMapper.toDto(inscriptionSaved, context);
+
+        return inscriptionDtoSaved;
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Inscription> byIdOptional = inscriptionRepository.findById(id);
+        if (byIdOptional.isPresent()){
+            Inscription inscriptionToDelete = byIdOptional.get();
+            inscriptionRepository.delete(inscriptionToDelete);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Inscription", id);
+        }
 
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("companyServices")
 public class CompanyServices implements Services<CompanyDto> {
@@ -36,11 +37,22 @@ public class CompanyServices implements Services<CompanyDto> {
 
     @Override
     public CompanyDto save(CompanyDto dto) {
-        return null;
+        Company companyToSave = companyMapper.toEntity(dto, context);
+        Company companySaved = companyRepository.save(companyToSave);
+        CompanyDto companyDtoSaved = companyMapper.toDto(companySaved, context);
+
+        return companyDtoSaved;
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Company> byIdOptional = companyRepository.findById(id);
+        if (byIdOptional.isPresent()) {
+            Company companyToDelete = byIdOptional.get();
+            companyRepository.delete(companyToDelete);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
+        }
 
     }
 }

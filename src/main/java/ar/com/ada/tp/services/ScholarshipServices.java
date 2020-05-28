@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("scholarshipServices")
 public class ScholarshipServices implements Services<ScholarshipDto> {
@@ -39,11 +40,21 @@ public class ScholarshipServices implements Services<ScholarshipDto> {
 
     @Override
     public ScholarshipDto save(ScholarshipDto dto) {
+
+
+
         return null;
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Scholarship> byIdOptional = scholarshipRepository.findById(id);
+        if (byIdOptional.isPresent()){
+            Scholarship scholarshipToDelete = byIdOptional.get();
+            scholarshipRepository.delete(scholarshipToDelete);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Scholarship", id);
+        }
 
     }
 }

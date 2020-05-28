@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -33,6 +34,9 @@ public class CourseDto implements Serializable {
 
     @NotBlank(message = "category is required")
     private String category;
+
+    @NotNull(message = "quota is required")
+    private Integer quota;
 
     @JsonIgnoreProperties(value = "courses")
     private Company company;

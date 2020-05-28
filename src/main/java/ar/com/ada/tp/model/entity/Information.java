@@ -35,8 +35,8 @@ public class Information {
     @Column(nullable = false, length = 10)
     private Integer howMany;
 
-    @OneToMany(mappedBy = "information")
-    private Set<Participant> participants;
+    @OneToOne(mappedBy = "information")
+    private Participant participant;
 
     public Information setId(Long id) {
         this.id = id;
