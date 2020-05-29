@@ -53,6 +53,36 @@ public class CompanyServices implements Services<CompanyDto> {
         } else {
             logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
         }
+    }
 
+    public CompanyDto findCompanyById(Long id) {
+        //SELECT * FROM Company WHERE id =
+        Optional<Company> byIdOptional = companyRepository.findById(id);
+        CompanyDto companyDto= null;
+
+        if(byIdOptional.isPresent()) {
+            Company companyById = byIdOptional.get();
+            companyDto = companyMapper.toDto(companyById, context);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
+        }
+        return companyDto;
+    }
+
+    public CompanyDto updateCompany (CompanyDto companyDtoToUpdate, Long id){
+        Optional<Company> byIdOptional = companyRepository.findById(id);
+        CompanyDto companyDtoUpdated = null;
+
+        if(byIdOptional.isPresent()) {
+            Company companyById = byIdOptional.get();
+            companyDtoToUpdate.setId(companyById.getId());
+            Company companyToUpdate = companyMapper.toEntity(companyDtoToUpdate, context);
+            Company companyUpdated = companyRepository.save(companyToUpdate);
+            companyDtoUpdated = companyMapper.toDto(companyUpdated, context);
+
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Company", id);
+        }
+        return companyDtoUpdated;
     }
 }

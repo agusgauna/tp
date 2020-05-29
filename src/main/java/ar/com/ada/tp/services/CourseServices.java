@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("courseServices")
 public class CourseServices implements Services<CourseDto> {
@@ -36,6 +37,22 @@ public class CourseServices implements Services<CourseDto> {
         return courseDtoList;
     }
 
+    public List<CourseDto> findCoursesWithQuota() {
+
+        List<Course> all = courseRepository.findAll();
+        List<Course> coursesWothQuote = all.stream()
+                .filter(course -> course.getQuota() > 0)
+                .collect(Collectors.toList());
+
+        List<Course> coursesWothQuoteTwo = new ArrayList<>();
+        for (Course course: all) {
+            if (course.getQuota() > 0)
+                coursesWothQuoteTwo.add(course);
+        }
+        List<CourseDto> courseDtosWithQuote = courseMapper.toDto(coursesWothQuote, context);
+        return courseDtosWithQuote;
+    }
+
     @Override
     public CourseDto save(CourseDto dto) {
         Course courseToSave = courseMapper.toEntity(dto, context);
@@ -47,13 +64,7 @@ public class CourseServices implements Services<CourseDto> {
 
     @Override
     public void delete(Long id) {
-        Optional<Course> byIdOptional = courseRepository.findById(id);
-        if (byIdOptional.isPresent()){
-            Course courseToDelete = byIdOptional.get();
-            courseRepository.delete(courseToDelete);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
-        }
-
+        Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        courseRepository.delete(course);
     }
 }

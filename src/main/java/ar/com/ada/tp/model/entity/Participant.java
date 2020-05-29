@@ -37,11 +37,8 @@ public class Participant {
     @JoinColumn(name = "Information_id", nullable = true)
     private Information information;
 
-    @ManyToMany(mappedBy = "participants")
-    private Set<Inscription> inscriptions;
-
-    @ManyToMany(mappedBy = "participants")
-    private Set<Scholarship> scholarships;
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
+    private Set<CourseParticipant> courseParticipants;
 
     public Participant setId(Long id) {
         this.id = id;

@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.util.Set;
 
 @Getter
@@ -29,22 +28,30 @@ public class Course {
     @Column(nullable = false, length = 50)
     private Integer cost;
 
-
     @Column(nullable = false, length = 100)
     private String category;
 
     @Column(nullable = false, length = 10)
     private Integer quota;
 
+    @Column(nullable = false, length = 10)
+    private Integer scholarship;
+
+    @Column(nullable = false, length = 10)
+    private Integer countInscription;
+
+    @Column(nullable = false, length = 10)
+    private Integer countQuota;
+
+    @Column(nullable = false, length = 10)
+    private Integer difference;
+
     @ManyToOne
     @JoinColumn(name = "Company_id", nullable = true)
     private Company company;
 
-    @ManyToMany(mappedBy = "courses")
-    private Set<Inscription> inscriptions;
-
-    @ManyToMany(mappedBy = "courses")
-    private Set<Scholarship> scholarships;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<CourseParticipant> courseParticipants;
 
     public Course setId(Long id) {
         this.id = id;
@@ -73,6 +80,26 @@ public class Course {
 
     public Course setCategory(String category) {
         this.category = category;
+        return this;
+    }
+
+    public Course setQuota(Integer quota) {
+        this.quota = quota;
+        return this;
+    }
+
+    public Course setScholarship(Integer scholarship) {
+        this.scholarship = scholarship;
+        return this;
+    }
+
+    public Course setCountInscription(Integer countInscription) {
+        this.countInscription = countInscription;
+        return this;
+    }
+
+    public Course setCountQuota(Integer countQuota) {
+        this.countQuota = countQuota;
         return this;
     }
 }

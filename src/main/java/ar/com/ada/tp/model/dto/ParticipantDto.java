@@ -1,14 +1,14 @@
 package ar.com.ada.tp.model.dto;
 
+import ar.com.ada.tp.model.entity.CourseParticipant;
 import ar.com.ada.tp.model.entity.Information;
-import ar.com.ada.tp.model.entity.Inscription;
-import ar.com.ada.tp.model.entity.Scholarship;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -39,14 +39,11 @@ public class ParticipantDto implements Serializable {
     @NotBlank(message = "address is required")
     private String address;
 
-    @JsonIgnoreProperties(value = "participants")
+    @JsonIgnoreProperties(value = "participant")
     private Information information;
 
-    @JsonIgnoreProperties(value = "participants")
-    private Set<Inscription> inscriptions;
-
-    @JsonIgnoreProperties(value = "participants")
-    private Set<Scholarship> scholarships;
+    @JsonIgnoreProperties(value = "participant")
+    private Set<CourseParticipant> courseParticipants;
 
     public ParticipantDto setId(Long id) {
         this.id = id;
