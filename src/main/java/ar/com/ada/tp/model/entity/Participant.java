@@ -12,7 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "Participant")
+@Entity
+@Table(name = "Participant")
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +38,7 @@ public class Participant {
     @JoinColumn(name = "Information_id", nullable = true)
     private Information information;
 
-    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "participant")
     private Set<CourseParticipant> courseParticipants;
 
     public Participant setId(Long id) {

@@ -3,6 +3,10 @@ package ar.com.ada.tp.model.dto;
 import ar.com.ada.tp.model.entity.Company;
 import ar.com.ada.tp.model.entity.CourseParticipant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +19,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"id", "name", "description", "modality", "cost", "category", "quota",
+        "scholarship","count_inscription", "count_quota", "difference", "company", "course_participant"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CourseDto implements Serializable {
     private Long id;
 
@@ -49,10 +57,10 @@ public class CourseDto implements Serializable {
     private Integer difference;
 
     @JsonIgnoreProperties(value = "courses")
-    private Company company;
+    private CompanyDto company;
 
-    @JsonIgnoreProperties(value = "course")
-    private Set<CourseParticipant> courseParticipants;
+    @JsonIgnoreProperties({"course", "participant"})
+    private Set<CourseParticipantDto> courseParticipants;
 
     public CourseDto setId(Long id) {
         this.id = id;

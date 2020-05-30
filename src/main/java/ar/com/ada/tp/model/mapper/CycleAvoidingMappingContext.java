@@ -19,7 +19,7 @@ public class CycleAvoidingMappingContext {
     }
 
     @BeforeMapping
-    public void actorMappedInstance(Object source, @MappingTarget Object targetType) {
+    public void storeMappedInstance(Object source, @MappingTarget Object targetType) {
         knownInstances.put(source, targetType);
     }
 }

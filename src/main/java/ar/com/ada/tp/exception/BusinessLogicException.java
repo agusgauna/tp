@@ -28,4 +28,23 @@ public class BusinessLogicException extends RuntimeException {
         this.httpStatus = httpStatus;
         this.entityErrors.add(apiEntityError);
     }
+    public BusinessLogicException setDefaultMessage(String defaultMessage) {
+        this.defaultMessage = defaultMessage;
+        return this;
+    }
+
+    public BusinessLogicException setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+        return this;
+    }
+
+    public BusinessLogicException setEntityErrors(List<ApiEntityError> entityErrors) {
+        this.entityErrors = entityErrors;
+        return this;
+    }
+
+    public BusinessLogicException setEntityErrors(ApiEntityError entityError) {
+        this.entityErrors.add(entityError);
+        return this;
+    }
 }

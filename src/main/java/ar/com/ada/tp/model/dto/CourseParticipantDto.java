@@ -3,6 +3,10 @@ package ar.com.ada.tp.model.dto;
 import ar.com.ada.tp.model.entity.Course;
 import ar.com.ada.tp.model.entity.Participant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,14 +18,14 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({ "course", "participant", "requestType", "status", "percent" })
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CourseParticipantDto implements Serializable {
-    private Long id;
 
-    @JsonIgnoreProperties(value = "CourseParticipants")
-    private Course course;
+    private CourseDto course;
 
-    @JsonIgnoreProperties(value = "CourseParticipants")
-    private Participant participant;
+    private ParticipantDto participant;
 
     @NotBlank(message = "requestType is required")
     private String requestType;

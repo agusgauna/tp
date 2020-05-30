@@ -8,16 +8,15 @@ import org.springframework.stereotype.Component;
 @Component("businessLogicExceptionComponent")
 public class BusinessLogicExceptionComponent {
 
-    public void throwExceptionEntityNotFound (String entityName, Long id){
-        ApiEntityError apiEntityError = new ApiEntityError(
-                entityName,
-                "NotFound",
-                entityName + " with id " + id + "does not exist"
-        );
-        throw new BusinessLogicException(
-                entityName + "not exist",
-                HttpStatus.NOT_FOUND,
-                apiEntityError
-        );
+    public RuntimeException throwExceptionEntityNotFound (String entityName, Long id){
+        ApiEntityError apiEntityError = new ApiEntityError()
+                .setEntity(entityName)
+                .setCode("Not found")
+                .setMessage("The " + entityName + " with id " + id + " does not exist");
+
+        return new BusinessLogicException()
+                .setDefaultMessage(entityName + "does not exist")
+                .setHttpStatus(HttpStatus.NOT_FOUND)
+                .setEntityErrors(apiEntityError);
     }
 }

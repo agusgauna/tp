@@ -10,7 +10,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "Course")
+@Entity
+@Table(name = "Course")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +51,7 @@ public class Course {
     @JoinColumn(name = "Company_id", nullable = true)
     private Company company;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course")
     private Set<CourseParticipant> courseParticipants;
 
     public Course setId(Long id) {

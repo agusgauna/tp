@@ -5,21 +5,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "CourseParticipant")
-public class CourseParticipant implements Serializable {
+@Entity
+@Table(name = "Course_has_Participant")
+public class CourseParticipant {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private CourseParticipantId id;
 
-    @ManyToOne @JoinColumn (name = "Course_id", nullable = true)
+    @ManyToOne @MapsId("courseId")
     private Course course;
 
-    @ManyToOne @JoinColumn (name = "Participant_id", nullable = true)
+    @ManyToOne @MapsId("participantId")
     private Participant participant;
 
     @Column(nullable = false, length = 10)

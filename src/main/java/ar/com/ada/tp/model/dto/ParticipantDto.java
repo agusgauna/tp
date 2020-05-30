@@ -4,6 +4,10 @@ import ar.com.ada.tp.model.entity.CourseParticipant;
 import ar.com.ada.tp.model.entity.Information;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +23,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({ "id", "name", "last_name", "birthday", "gender",
+        "address", "information", "course_participants" })
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ParticipantDto implements Serializable {
     private Long id;
 
@@ -40,7 +48,7 @@ public class ParticipantDto implements Serializable {
     private String address;
 
     @JsonIgnoreProperties(value = "participant")
-    private Information information;
+    private InformationDto information;
 
     @JsonIgnoreProperties(value = "participant")
     private Set<CourseParticipant> courseParticipants;

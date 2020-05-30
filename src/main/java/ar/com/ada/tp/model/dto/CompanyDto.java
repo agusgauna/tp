@@ -1,10 +1,13 @@
 package ar.com.ada.tp.model.dto;
 
-import ar.com.ada.tp.model.entity.Company;
 import ar.com.ada.tp.model.entity.Course;
 import ar.com.ada.tp.model.entity.Representative;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +22,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"id", "name", "cuil", "type", "address", "category", "year",
+        "telephone","representatives", "courses"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CompanyDto implements Serializable {
     private Long id;
 
@@ -46,10 +53,10 @@ public class CompanyDto implements Serializable {
     private Integer telephone;
 
     @JsonIgnoreProperties(value = "company")
-    private Set<Representative> representatives;
+    private Set<RepresentativeDto> representatives;
 
     @JsonIgnoreProperties(value = "company")
-    private Set<Course> courses;
+    private Set<CourseDto> courses;
 
     public CompanyDto setId(Long id) {
         this.id = id;
