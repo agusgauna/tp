@@ -36,6 +36,19 @@ public class RepresentativeServices implements Services<RepresentativeDto>{
         return representativeDtoList;
     }
 
+    public RepresentativeDto findRepresentativeById(Long id) {
+        Optional<Representative> byIdOptional = representativeRepository.findById(id);
+        RepresentativeDto representativeDto = null;
+
+        if(byIdOptional.isPresent()) {
+            Representative representativeById = byIdOptional.get();
+            representativeDto = representativeMapper.toDto(representativeById, context);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
+        }
+        return representativeDto;
+    }
+
     @Override
     public RepresentativeDto save(RepresentativeDto dto) {
         Representative representativeToSave = representativeMapper.toEntity(dto, context);
@@ -43,6 +56,23 @@ public class RepresentativeServices implements Services<RepresentativeDto>{
         RepresentativeDto representativeDtoSaved = representativeMapper.toDto(representativeSaved, context);
 
         return representativeDtoSaved;
+    }
+
+    public RepresentativeDto updateRepresentative (RepresentativeDto representativeDtoToUpdate, Long id){
+        Optional<Representative> byIdOptional = representativeRepository.findById(id);
+        RepresentativeDto representativeDtoUpdated = null;
+
+        if(byIdOptional.isPresent()) {
+            Representative representativeById = byIdOptional.get();
+            representativeDtoToUpdate.setId(representativeById.getId());
+            Representative representativeToUpdate = representativeMapper.toEntity(representativeDtoToUpdate, context);
+            Representative representativeUpdated = representativeRepository.save(representativeToUpdate);
+            representativeDtoUpdated = representativeMapper.toDto(representativeUpdated, context);
+
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
+        }
+        return representativeDtoUpdated;
     }
 
     @Override

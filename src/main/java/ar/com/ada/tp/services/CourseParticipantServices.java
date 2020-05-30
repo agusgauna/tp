@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("courseParticipantServices")
 public class CourseParticipantServices {
@@ -36,6 +37,13 @@ public class CourseParticipantServices {
     private CycleAvoidingMappingContext context;
 
     private final CourseParticipantMapper courseParticipantMapper = CourseParticipantMapper.MAPPER;
+
+    public List<CourseParticipantDto> findAll() {
+        List<CourseParticipant> all = courseParticipantRepository.findAll();
+        List<CourseParticipantDto> courseParticipantDtoList = courseParticipantMapper.toDto(all, context);
+
+        return courseParticipantDtoList;
+    }
 
     public CourseParticipantDto saveCourseParticipant (CourseParticipantDto dto, Long courseId, Long participantId) {
         Course course = courseRepository

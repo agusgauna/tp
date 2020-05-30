@@ -46,4 +46,16 @@ public class CompanyController {
         companyServices.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping({"{companyId}/representatives/{representativeId}","{companyId}/representatives/{representativeId}/"})
+    public ResponseEntity addRepresentativeToCompany(@PathVariable Long companyId, @PathVariable Long representativeId) {
+        CompanyDto companyDtoWithNewRepresentative = companyServices.addRepresentativeToCompany(representativeId, companyId);
+        return ResponseEntity.ok(companyDtoWithNewRepresentative);
+    }
+
+    @PutMapping({"{companyId}/courses/{courseId}","{companyId}/courses/{courseId}/"})
+    public ResponseEntity addCourseToCompany(@PathVariable Long companyId, @PathVariable Long courseId) {
+        CompanyDto companyDtoWithNewCourse = companyServices.addCourseToCompany(courseId, companyId);
+        return ResponseEntity.ok(companyDtoWithNewCourse);
+    }
 }

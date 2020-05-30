@@ -84,4 +84,12 @@ public class Company {
         this.telephone = telephone;
         return this;
     }
+
+    public void addRepresentative(Representative representative){
+        this.representatives.add(representative);
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
 }

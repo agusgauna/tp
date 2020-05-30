@@ -36,6 +36,19 @@ public class InformationServices implements Services<InformationDto> {
         return informationDtoList;
     }
 
+    public InformationDto findInformationById(Long id) {
+        Optional<Information> byIdOptional = informationRepository.findById(id);
+        InformationDto informationDto = null;
+
+        if(byIdOptional.isPresent()) {
+            Information informationById = byIdOptional.get();
+            informationDto = informationMapper.toDto(informationById, context);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
+        }
+        return informationDto;
+    }
+
     @Override
     public InformationDto save(InformationDto dto) {
         Information informationToSave = informationMapper.toEntity(dto, context);
@@ -45,16 +58,31 @@ public class InformationServices implements Services<InformationDto> {
         return informationDtoSaved;
     }
 
+    public InformationDto updateInformation (InformationDto informationDtoToUpdate, Long id){
+        Optional<Information> byIdOptional = informationRepository.findById(id);
+        InformationDto informationDtoUpdated = null;
+
+        if(byIdOptional.isPresent()) {
+            Information informationById = byIdOptional.get();
+            informationDtoToUpdate.setId(informationById.getId());
+            Information informationToUpdate = informationMapper.toEntity(informationDtoToUpdate, context);
+            Information informationUpdated = informationRepository.save(informationToUpdate);
+            informationDtoUpdated = informationMapper.toDto(informationUpdated, context);
+
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
+        }
+        return informationDtoUpdated;
+    }
+
     @Override
     public void delete(Long id) {
         Optional<Information> byIdOptional = informationRepository.findById(id);
-
         if (byIdOptional.isPresent()){
             Information informationToDelete = byIdOptional.get();
             informationRepository.delete(informationToDelete);
         } else {
             logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
         }
-
     }
 }
