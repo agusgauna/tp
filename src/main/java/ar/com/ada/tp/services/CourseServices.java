@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("courseServices")
@@ -37,6 +38,19 @@ public class CourseServices implements Services<CourseDto> {
         return courseDtoList;
     }
 
+    public CourseDto findCourseById(Long id) {
+        Optional<Course> byIdOptional = courseRepository.findById(id);
+        CourseDto courseDto= null;
+
+        if(byIdOptional.isPresent()) {
+            Course courseById = byIdOptional.get();
+            courseDto = courseMapper.toDto(courseById, context);
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
+        }
+        return courseDto;
+    }
+
     @Override
     public CourseDto save(CourseDto dto) {
         Course courseToSave = courseMapper.toEntity(dto, context);
@@ -44,6 +58,23 @@ public class CourseServices implements Services<CourseDto> {
         CourseDto courseDtoSaved = courseMapper.toDto(courseSaved, context);
 
         return courseDtoSaved;
+    }
+
+    public CourseDto updateCourse (CourseDto courseDtoToUpdate, Long id){
+        Optional<Course> byIdOptional = courseRepository.findById(id);
+        CourseDto courseDtoUpdated = null;
+
+        if(byIdOptional.isPresent()) {
+            Course courseById = byIdOptional.get();
+            courseDtoToUpdate.setId(courseById.getId());
+            Course courseToUpdate = courseMapper.toEntity(courseDtoToUpdate, context);
+            Course courseUpdated = courseRepository.save(courseToUpdate);
+            courseDtoUpdated = courseMapper.toDto(courseUpdated, context);
+
+        } else {
+            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
+        }
+        return courseDtoUpdated;
     }
 
     @Override
@@ -57,12 +88,6 @@ public class CourseServices implements Services<CourseDto> {
         List<Course> coursesWithQuote = all.stream()
                 .filter(course -> course.getQuota() > 0)
                 .collect(Collectors.toList());
-
-//        List<Course> coursesWothQuoteTwo = new ArrayList<>();
-//        for (Course course: all) {
-//            if (course.getQuota() > 0)
-//                coursesWothQuoteTwo.add(course);
-//        }
         List<CourseDto> courseDtosWithQuote = courseMapper.toDto(coursesWithQuote, context);
         return courseDtosWithQuote;
     }

@@ -21,7 +21,7 @@ public class Company {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 50)
     private Integer cuil;
 
     @Column(nullable = false, length = 50)
@@ -44,6 +44,20 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private Set<Course> courses;
+
+    public Company(Long id) {
+        this.id = id;
+    }
+
+    public Company(String name, Integer cuil, String type, String address, String category, Date year, Integer telephone) {
+        this.name = name;
+        this.cuil = cuil;
+        this.type = type;
+        this.address = address;
+        this.category = category;
+        this.year = year;
+        this.telephone = telephone;
+    }
 
     public Company setId(Long id) {
         this.id = id;

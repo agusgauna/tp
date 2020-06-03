@@ -57,7 +57,7 @@ public class CompanyServices implements Services<CompanyDto> {
             Company companyById = byIdOptional.get();
             companyDto = companyMapper.toDto(companyById, context);
         } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
+            logicExceptionComponent.throwExceptionEntityNotFound("Company", id);
         }
         return companyDto;
     }

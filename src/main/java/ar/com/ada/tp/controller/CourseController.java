@@ -7,10 +7,9 @@ import ar.com.ada.tp.services.CourseServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -59,4 +58,33 @@ public class CourseController {
         return ResponseEntity.ok(all);
     }
 
+    @GetMapping({"","/"})
+    public ResponseEntity getAllCourses() {
+        List<CourseDto> all = courseServices.findAll();
+        return ResponseEntity.ok(all);
+    }
+
+    @GetMapping({"/{id}","/{id}/"})
+    public ResponseEntity getCourseById(@PathVariable Long id){
+        CourseDto courseById = courseServices.findCourseById(id);
+        return ResponseEntity.ok(courseById);
+    }
+
+    @PostMapping({"","/"})
+    public ResponseEntity addNewCourse (@Valid @RequestBody CourseDto courseDto) {
+        CourseDto courseSaved = courseServices.save(courseDto);
+        return ResponseEntity.ok(courseSaved);
+    }
+
+    @PutMapping({"/{id}","/{id}/"})
+    public ResponseEntity updateCourseById(@Valid @RequestBody CourseDto courseDto, @PathVariable Long id){
+        CourseDto courseUpdated = courseServices.updateCourse(courseDto, id);
+        return ResponseEntity.ok(courseUpdated);
+    }
+
+    @DeleteMapping({"/{id}","/{id}/"})
+    public ResponseEntity deleteCourse (@PathVariable Long id){
+        courseServices.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
