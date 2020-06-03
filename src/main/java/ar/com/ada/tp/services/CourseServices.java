@@ -37,24 +37,6 @@ public class CourseServices implements Services<CourseDto> {
         return courseDtoList;
     }
 
-
-
-    public List<CourseDto> findCoursesWithQuota() {
-
-        List<Course> all = courseRepository.findAll();
-        List<Course> coursesWothQuote = all.stream()
-                .filter(course -> course.getQuota() > 0)
-                .collect(Collectors.toList());
-
-        List<Course> coursesWothQuoteTwo = new ArrayList<>();
-        for (Course course: all) {
-            if (course.getQuota() > 0)
-                coursesWothQuoteTwo.add(course);
-        }
-        List<CourseDto> courseDtosWithQuote = courseMapper.toDto(coursesWothQuote, context);
-        return courseDtosWithQuote;
-    }
-
     @Override
     public CourseDto save(CourseDto dto) {
         Course courseToSave = courseMapper.toEntity(dto, context);
@@ -68,5 +50,49 @@ public class CourseServices implements Services<CourseDto> {
     public void delete(Long id) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
         courseRepository.delete(course);
+    }
+
+    public List<CourseDto> findCoursesWithQuota() {
+        List<Course> all = courseRepository.findAll();
+        List<Course> coursesWithQuote = all.stream()
+                .filter(course -> course.getQuota() > 0)
+                .collect(Collectors.toList());
+
+//        List<Course> coursesWothQuoteTwo = new ArrayList<>();
+//        for (Course course: all) {
+//            if (course.getQuota() > 0)
+//                coursesWothQuoteTwo.add(course);
+//        }
+        List<CourseDto> courseDtosWithQuote = courseMapper.toDto(coursesWithQuote, context);
+        return courseDtosWithQuote;
+    }
+
+    public List<CourseDto> findCourseForCategory() {
+        List<Course> all = courseRepository.findAll();
+        List<Course> courseForCategory = all.stream()
+                .filter(course -> course.getCategory().equals(course))
+                .collect(Collectors.toList());
+        List<CourseDto> courseDtosForCategory = courseMapper.toDto(courseForCategory, context);
+        return courseDtosForCategory;
+    }
+
+    public List<CourseDto> findCourseForCompany() {
+        List<Course> all = courseRepository.findAll();
+        List<Course> courseForCompany = all.stream()
+                .filter(course -> course.getCompany().equals(course))
+                .collect(Collectors.toList());
+        List<CourseDto> courseDtosForCompany = courseMapper.toDto(courseForCompany, context);
+        return courseDtosForCompany;
+    }
+
+    public List<CourseDto> findCourseForCompanyAndCategory(){
+        List<Course> all = courseRepository.findAll();
+        List<Course> coursesForCompanyAndCategory = new ArrayList<>();
+        for (Course course: all) {
+            if (course.getCompany().equals(course) && course.getCategory().equals(course))
+                coursesForCompanyAndCategory.add(course);
+        }
+        List<CourseDto> courseDtosForCompanyAndCategory = courseMapper.toDto(coursesForCompanyAndCategory, context);
+        return courseDtosForCompanyAndCategory;
     }
 }

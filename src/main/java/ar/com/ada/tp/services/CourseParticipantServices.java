@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("courseParticipantServices")
 public class CourseParticipantServices {
@@ -66,6 +67,24 @@ public class CourseParticipantServices {
         CourseParticipantDto courseParticipantDtoSaved = courseParticipantMapper.toDto(courseParticipantSaved, context);
 
         return courseParticipantDtoSaved;
+    }
+
+    public List<CourseParticipantDto> findCourseForParticipantActive() {
+        List<CourseParticipant> all = courseParticipantRepository.findAll();
+        List<CourseParticipant> courseParticipants = all.stream()
+                .filter(courseParticipant -> courseParticipant.getStatus().equals(true))
+                .collect(Collectors.toList());
+        List<CourseParticipantDto> courseParticipantDtos = courseParticipantMapper.toDto(courseParticipants, context);
+        return courseParticipantDtos;
+    }
+
+    public List<CourseParticipantDto> findCourseForParticipantFinished() {
+        List<CourseParticipant> all = courseParticipantRepository.findAll();
+        List<CourseParticipant> courseParticipants = all.stream()
+                .filter(courseParticipant -> courseParticipant.getFinished().equals(true))
+                .collect(Collectors.toList());
+        List<CourseParticipantDto> courseParticipantDtos = courseParticipantMapper.toDto(courseParticipants, context);
+        return courseParticipantDtos;
     }
 
 }

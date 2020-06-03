@@ -36,6 +36,9 @@ public class CourseParticipantDto implements Serializable {
     @NotNull(message = "percent is required")
     private Integer percent;
 
+    @NotNull(message = "finished is required")
+    private Boolean finished;
+
     public CourseParticipantDto setRequestType(String requestType) {
         this.requestType = requestType;
         return this;
@@ -48,6 +51,11 @@ public class CourseParticipantDto implements Serializable {
 
     public CourseParticipantDto setPercent(Integer percent) {
         this.percent = percent;
+        return this;
+    }
+
+    public CourseParticipantDto setFinished(Boolean finished) {
+        this.finished = finished;
         return this;
     }
 }

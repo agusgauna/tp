@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -30,9 +32,10 @@ public class ParticipantController {
     }
 
     @PostMapping({"","/"})
-    public ResponseEntity addNewParticipant (@Valid @RequestBody ParticipantDto participantDto) {
+    public ResponseEntity addNewParticipant (@Valid @RequestBody ParticipantDto participantDto) throws URISyntaxException {
         ParticipantDto participantSaved = participantServices.save(participantDto);
-        return ResponseEntity.ok(participantSaved);
+        return ResponseEntity.created(new URI("/participants/" + participantSaved.getId()))
+                .body(participantSaved);
     }
 
     @PutMapping({"/{id}","/{id}/"})

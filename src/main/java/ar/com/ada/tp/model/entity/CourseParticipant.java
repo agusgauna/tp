@@ -31,6 +31,9 @@ public class CourseParticipant {
     @Column(nullable = false, length = 2)
     private Integer percent;
 
+    @Column(nullable = false)
+    private Boolean finished;
+
     public CourseParticipant setRequestType(String requestType) {
         this.requestType = requestType;
         return this;
@@ -43,6 +46,11 @@ public class CourseParticipant {
 
     public CourseParticipant setPercent(Integer percent) {
         this.percent = percent;
+        return this;
+    }
+
+    public CourseParticipant setFinished(Boolean finished) {
+        this.finished = finished;
         return this;
     }
 }
