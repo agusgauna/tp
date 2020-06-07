@@ -39,15 +39,9 @@ public class CourseServices implements Services<CourseDto> {
     }
 
     public CourseDto findCourseById(Long id) {
-        Optional<Course> byIdOptional = courseRepository.findById(id);
-        CourseDto courseDto= null;
+        Course byIdOptional = courseRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Course", id));
+        CourseDto courseDto = courseMapper.toDto(byIdOptional, context);
 
-        if(byIdOptional.isPresent()) {
-            Course courseById = byIdOptional.get();
-            courseDto = courseMapper.toDto(courseById, context);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
-        }
         return courseDto;
     }
 
@@ -61,25 +55,18 @@ public class CourseServices implements Services<CourseDto> {
     }
 
     public CourseDto updateCourse (CourseDto courseDtoToUpdate, Long id){
-        Optional<Course> byIdOptional = courseRepository.findById(id);
-        CourseDto courseDtoUpdated = null;
+        Course byIdOptional = courseRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Course", id));
+        courseDtoToUpdate.setId(byIdOptional.getId());
+        Course courseToUpdate = courseMapper.toEntity(courseDtoToUpdate, context);
+        Course courseUpdated = courseRepository.save(courseToUpdate);
+        CourseDto courseDtoUpdated = courseMapper.toDto(courseUpdated, context);
 
-        if(byIdOptional.isPresent()) {
-            Course courseById = byIdOptional.get();
-            courseDtoToUpdate.setId(courseById.getId());
-            Course courseToUpdate = courseMapper.toEntity(courseDtoToUpdate, context);
-            Course courseUpdated = courseRepository.save(courseToUpdate);
-            courseDtoUpdated = courseMapper.toDto(courseUpdated, context);
-
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
-        }
         return courseDtoUpdated;
     }
 
     @Override
     public void delete(Long id) {
-        Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = courseRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Course", id));
         courseRepository.delete(course);
     }
 

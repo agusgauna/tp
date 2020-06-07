@@ -1,7 +1,5 @@
 package ar.com.ada.tp.model.dto;
 
-import ar.com.ada.tp.model.entity.Course;
-import ar.com.ada.tp.model.entity.Representative;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,8 +20,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "name", "cuil", "type", "address", "category", "year",
-        "telephone","representatives", "courses"})
+@JsonPropertyOrder({"id", "name", "cuil", "address", "year", "telephone",
+        "representative", "course", "category", "company_type"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CompanyDto implements Serializable {
@@ -35,14 +33,8 @@ public class CompanyDto implements Serializable {
     @NotNull(message = "cuil is required")
     private Integer cuil;
 
-    @NotBlank(message = "type is required")
-    private String type;
-
     @NotBlank(message = "address is required")
     private String address;
-
-    @NotBlank(message = "category is required")
-    private String category;
 
     @JsonFormat(pattern = "yyyy")
     @NotNull(message = "year is required")
@@ -57,6 +49,12 @@ public class CompanyDto implements Serializable {
 
     @JsonIgnoreProperties(value = "company")
     private Set<CourseDto> courses;
+
+    @JsonIgnoreProperties(value = "companies")
+    private CategoryDto category;
+
+    @JsonIgnoreProperties(value = "company")
+    private CompanyTypeDto companyType;
 
     public CompanyDto setId(Long id) {
         this.id = id;
@@ -73,18 +71,8 @@ public class CompanyDto implements Serializable {
         return this;
     }
 
-    public CompanyDto setType(String type) {
-        this.type = type;
-        return this;
-    }
-
     public CompanyDto setAddress(String address) {
         this.address = address;
-        return this;
-    }
-
-    public CompanyDto setCategory(String category) {
-        this.category = category;
         return this;
     }
 

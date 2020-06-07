@@ -40,14 +40,12 @@ class ParticipantServicesTest {
                 .setName("Lorena")
                 .setLastName("Gaudio")
                 .setBirthday(LocalDate.parse("1988-05-23"))
-                .setGender("Femenino")
                 .setAddress("Lomas de Zamora");
         Participant dto2 = new Participant()
                 .setId(2L)
                 .setName("Mauricio")
                 .setLastName("Fernandez")
                 .setBirthday(LocalDate.parse("1970-04-05"))
-                .setGender("Masculino")
                 .setAddress("San Miguel");
 
         List<Participant> expectedParticipantList = Arrays.asList(dto, dto2);
@@ -71,7 +69,6 @@ class ParticipantServicesTest {
                 .setName("Lorena")
                 .setLastName("Gaudio")
                 .setBirthday(LocalDate.parse("1988-05-23"))
-                .setGender("Femenino")
                 .setAddress("Lomas de Zamora");
 
         when(participantRepository.save(any(Participant.class))).thenReturn(participant);

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({ "course", "participant", "requestType", "status", "percent" })
+@JsonPropertyOrder({ "course", "participant", "request_type", "status", "percent", "finished" })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CourseParticipantDto implements Serializable {

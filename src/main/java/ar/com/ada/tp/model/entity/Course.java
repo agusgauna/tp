@@ -23,14 +23,8 @@ public class Course {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(nullable = false, length = 100)
-    private String modality;
-
     @Column(nullable = false, length = 50)
     private Integer cost;
-
-    @Column(nullable = false, length = 100)
-    private String category;
 
     @Column(nullable = false, length = 10)
     private Integer quota;
@@ -54,6 +48,14 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<CourseParticipant> courseParticipants;
 
+    @ManyToOne
+    @JoinColumn(name = "Category_id", nullable = true)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "Course_modality_id", nullable = true)
+    private CourseModality courseModality;
+
     public Course setId(Long id) {
         this.id = id;
         return this;
@@ -69,18 +71,8 @@ public class Course {
         return this;
     }
 
-    public Course setModality(String modality) {
-        this.modality = modality;
-        return this;
-    }
-
     public Course setCost(Integer cost) {
         this.cost = cost;
-        return this;
-    }
-
-    public Course setCategory(String category) {
-        this.category = category;
         return this;
     }
 

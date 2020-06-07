@@ -49,16 +49,10 @@ public class CompanyServices implements Services<CompanyDto> {
         return companyDtoList;
     }
 
-    public CompanyDto findCompanyById(Long id) {
-        Optional<Company> byIdOptional = companyRepository.findById(id);
-        CompanyDto companyDto= null;
+    public CompanyDto findCompanyById(Long companyId) {
+        Company companyByIdOptional = companyRepository.findById(companyId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Company", companyId));
+        CompanyDto companyDto = companyMapper.toDto(companyByIdOptional, context);
 
-        if(byIdOptional.isPresent()) {
-            Company companyById = byIdOptional.get();
-            companyDto = companyMapper.toDto(companyById, context);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Company", id);
-        }
         return companyDto;
     }
 
@@ -72,101 +66,55 @@ public class CompanyServices implements Services<CompanyDto> {
     }
 
     public CompanyDto updateCompany (CompanyDto companyDtoToUpdate, Long id){
-        Optional<Company> byIdOptional = companyRepository.findById(id);
-        CompanyDto companyDtoUpdated = null;
+        Company byIdOptional = companyRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Company", id));
+        companyDtoToUpdate.setId(byIdOptional.getId());
+        Company companyToUpdate = companyMapper.toEntity(companyDtoToUpdate, context);
+        Company companyUpdated = companyRepository.save(companyToUpdate);
+        CompanyDto companyDtoUpdated = companyMapper.toDto(companyUpdated, context);
 
-        if(byIdOptional.isPresent()) {
-            Company companyById = byIdOptional.get();
-            companyDtoToUpdate.setId(companyById.getId());
-            Company companyToUpdate = companyMapper.toEntity(companyDtoToUpdate, context);
-            Company companyUpdated = companyRepository.save(companyToUpdate);
-            companyDtoUpdated = companyMapper.toDto(companyUpdated, context);
-
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Company", id);
-        }
         return companyDtoUpdated;
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Company> byIdOptional = companyRepository.findById(id);
-        if (byIdOptional.isPresent()) {
-            Company companyToDelete = byIdOptional.get();
-            companyRepository.delete(companyToDelete);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Course", id);
-        }
+        Company byIdOptional = companyRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Company", id));
+        companyRepository.delete(byIdOptional);
     }
 
     public CompanyDto addRepresentativeToCompany (Long representativeId, Long companyId) {
-        Optional<Company> companyByIdOptional = companyRepository.findById(companyId);
-        Optional<Representative> representativeByIdOptional = representativeRepository.findById(representativeId);
+        Company companyToSet = companyRepository.findById(companyId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Company", companyId));
+        Representative representativeToSet = representativeRepository.findById(representativeId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Representative", representativeId));
         CompanyDto companyDtoWithNewRepresentative = null;
 
-        if (!companyByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Company",companyId);
-        if (!representativeByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Representative",representativeId);
-
-        Company company = companyByIdOptional.get();
-        Representative representativeToSet = representativeByIdOptional.get();
-
-        boolean hasRepresentativeInCompany = company.getRepresentatives()
+        boolean hasRepresentativeInCompany = companyToSet.getRepresentatives()
                 .stream()
                 .anyMatch(representative -> representative.getName().equals(representativeToSet.getName()));
 
         if (!hasRepresentativeInCompany){
-            company.addRepresentative(representativeToSet);
-            Company companyWithNewRepresentative = companyRepository.save(company);
+            companyToSet.addRepresentative(representativeToSet);
+            Company companyWithNewRepresentative = companyRepository.save(companyToSet);
             companyDtoWithNewRepresentative = companyMapper.toDto(companyWithNewRepresentative, context);
         } else {
-            ApiEntityError apiEntityError = new ApiEntityError(
-                    "Representative",
-                    "AlreadyExist",
-                    "The representative with id " + representativeId + "already exist in the company"
-            );
-            throw new BusinessLogicException(
-                    "Representative already exist in the company",
-                    HttpStatus.BAD_REQUEST,
-                    apiEntityError
-            );
+            throw logicExceptionComponent.throwExceptionEntityAlreadyExist("Representative", representativeId);
         }
-        return companyDtoWithNewRepresentative;
+           return companyDtoWithNewRepresentative;
     }
 
     public CompanyDto addCourseToCompany (Long courseId, Long companyId) {
-        Optional<Company> companyByIdOptional = companyRepository.findById(companyId);
-        Optional<Course> courseByIdOptional = courseRepository.findById(courseId);
+        Company companyToSet = companyRepository.findById(companyId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Company", companyId));
+        Course courseToSet = courseRepository.findById(courseId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Course", courseId));
         CompanyDto companyDtoWithNewCourse = null;
 
-        if (!companyByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Company",companyId);
-        if (!courseByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Course",courseId);
-
-        Company company = companyByIdOptional.get();
-        Course courseToSet = courseByIdOptional.get();
-
-        boolean hasCourseInCompany = company.getCourses()
+        boolean hasCourseInCompany = companyToSet.getCourses()
                 .stream()
                 .anyMatch(course -> course.getName().equals(courseToSet.getName()));
 
         if (!hasCourseInCompany){
-            company.addCourse(courseToSet);
-            Company companyWithNewCourse = companyRepository.save(company);
+            companyToSet.addCourse(courseToSet);
+            Company companyWithNewCourse = companyRepository.save(companyToSet);
             companyDtoWithNewCourse = companyMapper.toDto(companyWithNewCourse, context);
         } else {
-            ApiEntityError apiEntityError = new ApiEntityError(
-                    "Course",
-                    "AlreadyExist",
-                    "The course with id " + courseId + "already exist in the company"
-            );
-            throw new BusinessLogicException(
-                    "Company already exist in the company",
-                    HttpStatus.BAD_REQUEST,
-                    apiEntityError
-            );
+            throw logicExceptionComponent.throwExceptionEntityAlreadyExist("Course", courseId);
         }
         return companyDtoWithNewCourse;
     }

@@ -31,9 +31,6 @@ public class RepresentativeDto implements Serializable {
     @NotBlank(message = "lastName is required")
     private String lastName;
 
-    @NotBlank(message = "typeDocument is required")
-    private String typeDocument;
-
     @NotNull(message = "document is required")
     private Integer document;
 
@@ -47,6 +44,9 @@ public class RepresentativeDto implements Serializable {
     @JsonIgnoreProperties(value = "representatives")
     private CompanyDto company;
 
+    @JsonIgnoreProperties(value = "representatives")
+    private DocumentTypeDto documentType;
+
     public RepresentativeDto setId(Long id) {
         this.id = id;
         return this;
@@ -59,11 +59,6 @@ public class RepresentativeDto implements Serializable {
 
     public RepresentativeDto setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public RepresentativeDto setTypeDocument(String typeDocument) {
-        this.typeDocument = typeDocument;
         return this;
     }
 

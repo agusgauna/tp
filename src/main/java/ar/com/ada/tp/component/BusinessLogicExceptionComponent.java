@@ -19,4 +19,16 @@ public class BusinessLogicExceptionComponent {
                 .setHttpStatus(HttpStatus.NOT_FOUND)
                 .setEntityErrors(apiEntityError);
     }
+
+    public RuntimeException throwExceptionEntityAlreadyExist(String entityName,Long id) {
+        ApiEntityError apiEntityError = new ApiEntityError()
+                .setEntity(entityName)
+                .setCode("Already exist")
+                .setMessage("The " + entityName + " with id " + id + " already exist");
+
+        return new BusinessLogicException()
+                .setDefaultMessage(entityName + "already exist")
+                .setHttpStatus(HttpStatus.BAD_REQUEST)
+                .setEntityErrors(apiEntityError);
+    }
 }

@@ -1,7 +1,6 @@
 package ar.com.ada.tp.model.dto;
 
-import ar.com.ada.tp.model.entity.Company;
-import ar.com.ada.tp.model.entity.CourseParticipant;
+import ar.com.ada.tp.model.entity.Category;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,8 +18,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "name", "description", "modality", "cost", "category", "quota",
-        "scholarship","count_inscription", "count_quota", "difference", "company", "course_participant"})
+@JsonPropertyOrder({"id", "name", "description", "cost", "quota", "scholarship",
+        "count_inscription", "count_quota", "difference", "company", "course_participant", "category", "course_modality"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CourseDto implements Serializable {
@@ -32,14 +31,8 @@ public class CourseDto implements Serializable {
     @NotBlank(message = "description is required")
     private String description;
 
-    @NotBlank(message = "modality is required")
-    private String modality;
-
     @NotNull(message = "cost is required")
     private Integer cost;
-
-    @NotBlank(message = "category is required")
-    private String category;
 
     @NotNull(message = "quota is required")
     private Integer quota;
@@ -62,6 +55,12 @@ public class CourseDto implements Serializable {
     @JsonIgnoreProperties({"course", "participant"})
     private Set<CourseParticipantDto> courseParticipants;
 
+    @JsonIgnoreProperties(value = "courses")
+    private Category category;
+
+    @JsonIgnoreProperties(value = "courses")
+    private CourseModalityDto courseModality;
+
     public CourseDto setId(Long id) {
         this.id = id;
         return this;
@@ -77,18 +76,8 @@ public class CourseDto implements Serializable {
         return this;
     }
 
-    public CourseDto setModality(String modality) {
-        this.modality = modality;
-        return this;
-    }
-
     public CourseDto setCost(Integer cost) {
         this.cost = cost;
-        return this;
-    }
-
-    public CourseDto setCategory(String category) {
-        this.category = category;
         return this;
     }
 

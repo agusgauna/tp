@@ -31,7 +31,6 @@ class ParticipantRepositoryTest {
                 .setName("Lorena")
                 .setLastName("Gaudio")
                 .setBirthday(LocalDate.parse("1988-05-23"))
-                .setGender("Femenino")
                 .setAddress("Lomas de Zamora");
 
         //WHEN
@@ -67,7 +66,7 @@ class ParticipantRepositoryTest {
         List<Participant> participantList = participantRepository.findAll();
 
         //THEN
-        assertThat(participantList).hasSize(1);
+        assertThat(participantList).hasSizeGreaterThan(0);
     }
 
 }

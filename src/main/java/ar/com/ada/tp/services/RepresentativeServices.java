@@ -37,15 +37,9 @@ public class RepresentativeServices implements Services<RepresentativeDto>{
     }
 
     public RepresentativeDto findRepresentativeById(Long id) {
-        Optional<Representative> byIdOptional = representativeRepository.findById(id);
-        RepresentativeDto representativeDto = null;
+        Representative byIdOptional = representativeRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Representative", id));
+        RepresentativeDto representativeDto = representativeMapper.toDto(byIdOptional, context);
 
-        if(byIdOptional.isPresent()) {
-            Representative representativeById = byIdOptional.get();
-            representativeDto = representativeMapper.toDto(representativeById, context);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
-        }
         return representativeDto;
     }
 
@@ -59,31 +53,18 @@ public class RepresentativeServices implements Services<RepresentativeDto>{
     }
 
     public RepresentativeDto updateRepresentative (RepresentativeDto representativeDtoToUpdate, Long id){
-        Optional<Representative> byIdOptional = representativeRepository.findById(id);
-        RepresentativeDto representativeDtoUpdated = null;
+        Representative byIdOptional = representativeRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Representative", id));
+        representativeDtoToUpdate.setId(byIdOptional.getId());
+        Representative representativeToUpdate = representativeMapper.toEntity(representativeDtoToUpdate, context);
+        Representative representativeUpdated = representativeRepository.save(representativeToUpdate);
+        RepresentativeDto representativeDtoUpdated = representativeMapper.toDto(representativeUpdated, context);
 
-        if(byIdOptional.isPresent()) {
-            Representative representativeById = byIdOptional.get();
-            representativeDtoToUpdate.setId(representativeById.getId());
-            Representative representativeToUpdate = representativeMapper.toEntity(representativeDtoToUpdate, context);
-            Representative representativeUpdated = representativeRepository.save(representativeToUpdate);
-            representativeDtoUpdated = representativeMapper.toDto(representativeUpdated, context);
-
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
-        }
         return representativeDtoUpdated;
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Representative> byIdOptional = representativeRepository.findById(id);
-        if (byIdOptional.isPresent()) {
-            Representative representativeToDelete = byIdOptional.get();
-            representativeRepository.delete(representativeToDelete);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Representative", id);
-        }
-
+        Representative byIdOptional = representativeRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Representative", id));
+        representativeRepository.delete(byIdOptional);
     }
 }

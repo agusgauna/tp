@@ -33,10 +33,9 @@ class ParticipantControllerTest {
         //requestBody
         ParticipantDto participant = new ParticipantDto()
                 .setId(1L)
-                .setName("Lorena")
+                .setName("Lorena Maria")
                 .setLastName("Gaudio")
                 .setBirthday(LocalDate.parse("1988-05-23"))
-                .setGender("Femenino")
                 .setAddress("Lomas de Zamora");
 
         HttpEntity<ParticipantDto> request = new HttpEntity<>(participant);

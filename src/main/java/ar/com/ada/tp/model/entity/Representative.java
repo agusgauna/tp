@@ -23,9 +23,6 @@ public class Representative {
     @Column(nullable = false, length = 100)
     private String lastName;
 
-    @Column(nullable = false, length = 50)
-    private String typeDocument;
-
     @Column(nullable = false, length = 8)
     private Integer document;
 
@@ -39,6 +36,10 @@ public class Representative {
     @JoinColumn(name = "Company_id", nullable = true)
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "Document_type_id", nullable = true)
+    private DocumentType documentType;
+
     public Representative setId(Long id) {
         this.id = id;
         return this;
@@ -51,11 +52,6 @@ public class Representative {
 
     public Representative setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public Representative setTypeDocument(String typeDocument) {
-        this.typeDocument = typeDocument;
         return this;
     }
 

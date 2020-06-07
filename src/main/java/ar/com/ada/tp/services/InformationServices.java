@@ -37,15 +37,9 @@ public class InformationServices implements Services<InformationDto> {
     }
 
     public InformationDto findInformationById(Long id) {
-        Optional<Information> byIdOptional = informationRepository.findById(id);
-        InformationDto informationDto = null;
+        Information byIdOptional = informationRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Information", id));
+        InformationDto informationDto = informationMapper.toDto(byIdOptional, context);
 
-        if(byIdOptional.isPresent()) {
-            Information informationById = byIdOptional.get();
-            informationDto = informationMapper.toDto(informationById, context);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
-        }
         return informationDto;
     }
 
@@ -59,30 +53,18 @@ public class InformationServices implements Services<InformationDto> {
     }
 
     public InformationDto updateInformation (InformationDto informationDtoToUpdate, Long id){
-        Optional<Information> byIdOptional = informationRepository.findById(id);
-        InformationDto informationDtoUpdated = null;
+        Information byIdOptional = informationRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Information", id));
+        informationDtoToUpdate.setId(byIdOptional.getId());
+        Information informationToUpdate = informationMapper.toEntity(informationDtoToUpdate, context);
+        Information informationUpdated = informationRepository.save(informationToUpdate);
+        InformationDto informationDtoUpdated = informationMapper.toDto(informationUpdated, context);
 
-        if(byIdOptional.isPresent()) {
-            Information informationById = byIdOptional.get();
-            informationDtoToUpdate.setId(informationById.getId());
-            Information informationToUpdate = informationMapper.toEntity(informationDtoToUpdate, context);
-            Information informationUpdated = informationRepository.save(informationToUpdate);
-            informationDtoUpdated = informationMapper.toDto(informationUpdated, context);
-
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
-        }
         return informationDtoUpdated;
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Information> byIdOptional = informationRepository.findById(id);
-        if (byIdOptional.isPresent()){
-            Information informationToDelete = byIdOptional.get();
-            informationRepository.delete(informationToDelete);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Information", id);
-        }
+        Information byIdOptional = informationRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Information", id));
+        informationRepository.delete(byIdOptional);
     }
 }

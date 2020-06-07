@@ -43,15 +43,9 @@ public class ParticipantServices implements Services<ParticipantDto> {
     }
 
     public ParticipantDto findParticipantById(Long id) {
-        Optional<Participant> byIdOptional = participantRepository.findById(id);
-        ParticipantDto participantDto= null;
+        Participant byIdOptional = participantRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Participant", id));
+        ParticipantDto participantDto = participantMapper.toDto(byIdOptional, context);
 
-        if(byIdOptional.isPresent()) {
-            Participant participantById = byIdOptional.get();
-            participantDto = participantMapper.toDto(participantById, context);
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Participant", id);
-        }
         return participantDto;
     }
 
@@ -65,46 +59,25 @@ public class ParticipantServices implements Services<ParticipantDto> {
     }
 
     public ParticipantDto updateParticipant (ParticipantDto participantDtoToUpdate, Long id){
-        Optional<Participant> byIdOptional = participantRepository.findById(id);
-        ParticipantDto participantDtoUpdated = null;
+        Participant byIdOptional = participantRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Participant", id));
+        participantDtoToUpdate.setId(byIdOptional.getId());
+        Participant participantToUpdate = participantMapper.toEntity(participantDtoToUpdate, context);
+        Participant participantUpdated = participantRepository.save(participantToUpdate);
+        ParticipantDto participantDtoUpdated = participantMapper.toDto(participantUpdated, context);
 
-        if(byIdOptional.isPresent()) {
-            Participant participantById = byIdOptional.get();
-            participantDtoToUpdate.setId(participantById.getId());
-            Participant participantToUpdate = participantMapper.toEntity(participantDtoToUpdate, context);
-            Participant participantUpdated = participantRepository.save(participantToUpdate);
-            participantDtoUpdated = participantMapper.toDto(participantUpdated, context);
-
-        } else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Participant", id);
-        }
         return participantDtoUpdated;
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Participant> byIdOptional = participantRepository.findById(id);
-        if (byIdOptional.isPresent()){
-            Participant filmToDelete = byIdOptional.get();
-            participantRepository.delete(filmToDelete);
-        }  else {
-            logicExceptionComponent.throwExceptionEntityNotFound("Participant", id);
-        }
+        Participant byIdOptional = participantRepository.findById(id).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Participant", id));
+        participantRepository.delete(byIdOptional);
     }
 
     public ParticipantDto addInformationToParticipant(Long informationId, Long participantId) {
-        Optional<Participant> participantByIdOptional = participantRepository.findById(participantId);
-        Optional<Information> informationByIdOptional = informationRepository.findById(informationId);
+        Participant participant = participantRepository.findById(participantId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Participant", participantId));
+        Information information = informationRepository.findById(informationId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("Information", informationId));
         ParticipantDto participantDtoWithInformation = null;
-
-        if (!participantByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Participant",participantId);
-        if (!informationByIdOptional.isPresent())
-            logicExceptionComponent.throwExceptionEntityNotFound("Information",informationId);
-
-        Participant participant = participantByIdOptional.get();
-        Information information = informationByIdOptional.get();
-
         participant.setInformation(information);
         Participant participantWithInformation = participantRepository.save(participant);
         participantDtoWithInformation = participantMapper.toDto(participantWithInformation, context);

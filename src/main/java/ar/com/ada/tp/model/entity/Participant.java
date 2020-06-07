@@ -28,9 +28,6 @@ public class Participant {
     @Column(nullable = false, columnDefinition = "DATETIME")
     private LocalDate birthday;
 
-    @Column(nullable = false, length = 10)
-    private String gender;
-
     @Column(nullable = false, length = 100)
     private String address;
 
@@ -40,6 +37,10 @@ public class Participant {
 
     @OneToMany(mappedBy = "participant")
     private Set<CourseParticipant> courseParticipants;
+
+    @ManyToOne
+    @JoinColumn(name = "Participant_gender_id", nullable = true)
+    private ParticipantGender participantGender;
 
     public Participant setId(Long id) {
         this.id = id;
@@ -58,11 +59,6 @@ public class Participant {
 
     public Participant setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-        return this;
-    }
-
-    public Participant setGender(String gender) {
-        this.gender = gender;
         return this;
     }
 

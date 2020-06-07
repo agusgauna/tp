@@ -1,7 +1,5 @@
 package ar.com.ada.tp.model.dto;
 
-import ar.com.ada.tp.model.entity.CourseParticipant;
-import ar.com.ada.tp.model.entity.Information;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -23,8 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({ "id", "name", "last_name", "birthday", "gender",
-        "address", "information", "course_participants" })
+@JsonPropertyOrder({ "id", "name", "last_name", "birthday", "address", "information", "course_participant", "participant_gender" })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ParticipantDto implements Serializable {
@@ -41,9 +37,6 @@ public class ParticipantDto implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
-    @NotBlank(message = "gender is required")
-    private String gender;
-
     @NotBlank(message = "address is required")
     private String address;
 
@@ -51,7 +44,10 @@ public class ParticipantDto implements Serializable {
     private InformationDto information;
 
     @JsonIgnoreProperties(value = "participant")
-    private Set<CourseParticipant> courseParticipants;
+    private Set<CourseParticipantDto> courseParticipants;
+
+    @JsonIgnoreProperties(value = "participants")
+    private ParticipantGenderDto participantGender;
 
     public ParticipantDto setId(Long id) {
         this.id = id;
@@ -70,11 +66,6 @@ public class ParticipantDto implements Serializable {
 
     public ParticipantDto setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-        return this;
-    }
-
-    public ParticipantDto setGender(String gender) {
-        this.gender = gender;
         return this;
     }
 

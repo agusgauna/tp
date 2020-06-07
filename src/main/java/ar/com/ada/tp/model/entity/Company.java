@@ -24,14 +24,8 @@ public class Company {
     @Column(nullable = false, length = 50)
     private Integer cuil;
 
-    @Column(nullable = false, length = 50)
-    private String type;
-
     @Column(nullable = false, length = 100)
     private String address;
-
-    @Column(nullable = false, length = 50)
-    private String category;
 
     @Column(nullable = false, columnDefinition = "DATETIME")
     private Date year;
@@ -45,16 +39,22 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private Set<Course> courses;
 
+    @ManyToOne
+    @JoinColumn(name = "Category_id", nullable = true)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "Company_type_id", nullable = true)
+    private CompanyType companyType;
+
     public Company(Long id) {
         this.id = id;
     }
 
-    public Company(String name, Integer cuil, String type, String address, String category, Date year, Integer telephone) {
+    public Company(String name, Integer cuil, String address, Date year, Integer telephone) {
         this.name = name;
         this.cuil = cuil;
-        this.type = type;
         this.address = address;
-        this.category = category;
         this.year = year;
         this.telephone = telephone;
     }
@@ -74,18 +74,8 @@ public class Company {
         return this;
     }
 
-    public Company setType(String type) {
-        this.type = type;
-        return this;
-    }
-
     public Company setAddress(String address) {
         this.address = address;
-        return this;
-    }
-
-    public Company setCategory(String category) {
-        this.category = category;
         return this;
     }
 
