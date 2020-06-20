@@ -27,16 +27,12 @@ public class CourseParticipantDto implements Serializable {
 
     private ParticipantDto participant;
 
-    @NotBlank(message = "requestType is required")
     private String requestType;
 
-    @NotNull(message = "status is required")
     private Boolean status;
 
-    @NotNull(message = "percent is required")
     private Integer percent;
 
-    @NotNull(message = "finished is required")
     private Boolean finished;
 
     public CourseParticipantDto setRequestType(String requestType) {

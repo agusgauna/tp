@@ -47,6 +47,9 @@ public class CourseParticipantServices {
     }
 
     public CourseParticipantDto saveCourseParticipant (CourseParticipantDto dto, Long courseId, Long participantId) {
+//        if dto.getRequestType() == null {
+//            throw
+//        }
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("Course", courseId));

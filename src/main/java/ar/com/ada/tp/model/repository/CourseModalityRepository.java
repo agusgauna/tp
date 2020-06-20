@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository("courseModalityRepository")
 public interface CourseModalityRepository extends JpaRepository<CourseModality, Long> {
+
 }
