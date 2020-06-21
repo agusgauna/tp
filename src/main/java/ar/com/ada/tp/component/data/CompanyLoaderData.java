@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,14 +39,14 @@ public class CompanyLoaderData implements ApplicationRunner {
                             .setName("Ada")
                             .setCuil(33405221)
                             .setAddress("Lomas de Zamora")
-                            .setYear(2001)
+                            .setYear(Year.of(2001))
                             .setTelephone(55774422),
                     new Company()
                             .setId(2L)
                             .setName("Instituto Gato Dumas")
                             .setCuil(33405221)
                             .setAddress("Adrogue")
-                            .setYear(2010)
+                            .setYear(Year.of(2010))
                             .setTelephone(55771540)
             );
             companyRepository.saveAll(companyList);

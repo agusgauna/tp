@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Year;
 import java.util.Date;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Company {
     private String address;
 
     @Column(nullable = false, columnDefinition = "DATETIME")
-    private Date year;
+    private Year year;
 
     @Column(nullable = false, length = 50)
     private Integer telephone;
@@ -51,7 +52,7 @@ public class Company {
         this.id = id;
     }
 
-    public Company(String name, Integer cuil, String address, Date year, Integer telephone) {
+    public Company(String name, Integer cuil, String address, Year year, Integer telephone) {
         this.name = name;
         this.cuil = cuil;
         this.address = address;
@@ -79,7 +80,7 @@ public class Company {
         return this;
     }
 
-    public Company setYear(Date year) {
+    public Company setYear(Year year) {
         this.year = year;
         return this;
     }

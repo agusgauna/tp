@@ -1,6 +1,5 @@
 package ar.com.ada.tp.component.data;
 
-import ar.com.ada.tp.model.entity.Company;
 import ar.com.ada.tp.model.entity.CompanyType;
 import ar.com.ada.tp.model.repository.CompanyTypeRepository;
 import org.slf4j.Logger;

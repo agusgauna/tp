@@ -1,4 +1,7 @@
 package ar.com.ada.tp.component.data;
 
-public class CourseParticipantLoaderData {
+import org.springframework.stereotype.Component;
+
+@Component
+public class CourseParticipantLoaderData implements  {
 }
