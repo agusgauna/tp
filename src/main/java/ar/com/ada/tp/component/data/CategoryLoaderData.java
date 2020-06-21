@@ -30,7 +30,7 @@ public class CategoryLoaderData implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         if (appEnv.equals("dev") || appEnv.equals("qa")) {
-            LOGGER.info("Loading TypeCategoryCompany initial data...");
+            LOGGER.info("Loading Category initial data...");
 
             List<Category> categoryList = Arrays.asList(
                     new Category()
