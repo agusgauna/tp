@@ -33,4 +33,9 @@ public class DocumentType {
         this.type = type;
         return this;
     }
+
+    public DocumentType setRepresentatives(Set<Representative> representatives) {
+        this.representatives = representatives;
+        return this;
+    }
 }

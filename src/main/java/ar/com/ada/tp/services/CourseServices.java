@@ -2,9 +2,15 @@ package ar.com.ada.tp.services;
 
 import ar.com.ada.tp.component.BusinessLogicExceptionComponent;
 import ar.com.ada.tp.model.dto.CourseDto;
+import ar.com.ada.tp.model.entity.Category;
+import ar.com.ada.tp.model.entity.Company;
 import ar.com.ada.tp.model.entity.Course;
+import ar.com.ada.tp.model.entity.CourseModality;
 import ar.com.ada.tp.model.mapper.CourseMapper;
 import ar.com.ada.tp.model.mapper.CycleAvoidingMappingContext;
+import ar.com.ada.tp.model.repository.CategoryRepository;
+import ar.com.ada.tp.model.repository.CompanyRepository;
+import ar.com.ada.tp.model.repository.CourseModalityRepository;
 import ar.com.ada.tp.model.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +30,15 @@ public class CourseServices implements Services<CourseDto> {
 
     @Autowired @Qualifier("courseRepository")
     private CourseRepository courseRepository;
+
+    @Autowired @Qualifier("categoryRepository")
+    private CategoryRepository categoryRepository;
+
+    @Autowired @Qualifier("companyRepository")
+    private CompanyRepository companyRepository;
+
+    @Autowired @Qualifier("courseModalityRepository")
+    private CourseModalityRepository courseModalityRepository;
 
     @Autowired @Qualifier("cycleAvoidingMappingContext")
     private CycleAvoidingMappingContext context;
@@ -47,7 +62,19 @@ public class CourseServices implements Services<CourseDto> {
 
     @Override
     public CourseDto save(CourseDto dto) {
+        Long categoryId = dto.getCategory().getId();
+        Long companyId = dto.getCompany().getId();
+        Long courseModalityId = dto.getCourseModality().getId();
+        Category category;
+        category = categoryRepository.findById(categoryId).orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("Category", categoryId));
+        Company company;
+        company = companyRepository.findById(companyId).orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("Company", companyId));
+        CourseModality courseModality;
+        courseModality = courseModalityRepository.findById(courseModalityId).orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("CourseModality", courseModalityId));
         Course courseToSave = courseMapper.toEntity(dto, context);
+        courseToSave.setCategory(category);
+        courseToSave.setCompany(company);
+        courseToSave.setCourseModality(courseModality);
         Course courseSaved = courseRepository.save(courseToSave);
         CourseDto courseDtoSaved = courseMapper.toDto(courseSaved, context);
 

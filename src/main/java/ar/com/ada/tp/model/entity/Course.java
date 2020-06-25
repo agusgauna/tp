@@ -95,4 +95,29 @@ public class Course {
         this.countQuota = countQuota;
         return this;
     }
+
+    public Course setDifference(Integer difference) {
+        this.difference = difference;
+        return this;
+    }
+
+    public Course setCompany(Company company) {
+        this.company = company;
+        return this;
+    }
+
+    public Course setCourseParticipants(Set<CourseParticipant> courseParticipants) {
+        this.courseParticipants = courseParticipants;
+        return this;
+    }
+
+    public Course setCategory(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public Course setCourseModality(CourseModality courseModality) {
+        this.courseModality = courseModality;
+        return this;
+    }
 }

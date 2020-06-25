@@ -5,10 +5,12 @@ import ar.com.ada.tp.model.dto.ParticipantDto;
 import ar.com.ada.tp.model.entity.Course;
 import ar.com.ada.tp.model.entity.Information;
 import ar.com.ada.tp.model.entity.Participant;
+import ar.com.ada.tp.model.entity.ParticipantGender;
 import ar.com.ada.tp.model.mapper.CycleAvoidingMappingContext;
 import ar.com.ada.tp.model.mapper.ParticipantMapper;
 import ar.com.ada.tp.model.repository.CourseRepository;
 import ar.com.ada.tp.model.repository.InformationRepository;
+import ar.com.ada.tp.model.repository.ParticipantGenderRepository;
 import ar.com.ada.tp.model.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +27,9 @@ public class ParticipantServices implements Services<ParticipantDto> {
 
     @Autowired @Qualifier("participantRepository")
     private ParticipantRepository participantRepository;
+
+    @Autowired @Qualifier("participantGenderRepository")
+    private ParticipantGenderRepository participantGenderRepository;
 
     @Autowired @Qualifier("informationRepository")
     private InformationRepository informationRepository;
@@ -51,9 +56,17 @@ public class ParticipantServices implements Services<ParticipantDto> {
 
     @Override
     public ParticipantDto save(ParticipantDto dto) {
-        Participant participant = participantMapper.toEntity(dto,context);
-        Participant participantToSave = participantRepository.save(participant);
-        ParticipantDto dtoSaved = participantMapper.toDto(participantToSave, context);
+        Long participantGenderId = dto.getParticipantGender().getId();
+        Long informationId = dto.getInformation().getId();
+        ParticipantGender participantGender;
+        participantGender = participantGenderRepository.findById(participantGenderId).orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("ParticipantGender", participantGenderId));
+        Information information;
+        information = informationRepository.findById(informationId).orElseThrow(()->logicExceptionComponent.throwExceptionEntityNotFound("Information", informationId));
+        Participant participantToSave = participantMapper.toEntity(dto,context);
+        participantToSave.setParticipantGender(participantGender);
+        participantToSave.setInformation(information);
+        Participant participantSaved = participantRepository.save(participantToSave);
+        ParticipantDto dtoSaved = participantMapper.toDto(participantSaved, context);
 
         return dtoSaved;
     }

@@ -31,4 +31,17 @@ public class BusinessLogicExceptionComponent {
                 .setHttpStatus(HttpStatus.BAD_REQUEST)
                 .setEntityErrors(apiEntityError);
     }
+
+    public RuntimeException throwExceptionEntityIsNull (String entityName,Long id, Long id2) {
+        ApiEntityError apiEntityError = new ApiEntityError()
+                .setEntity(entityName)
+                .setCode("Is null")
+                .setMessage("The " + entityName + " with id " + id + "y" + id2 + " is null");
+
+        return new BusinessLogicException()
+                .setDefaultMessage(entityName + "is null")
+                .setHttpStatus(HttpStatus.NOT_FOUND)
+                .setEntityErrors(apiEntityError);
+    }
+
 }

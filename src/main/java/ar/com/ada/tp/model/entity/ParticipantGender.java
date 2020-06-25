@@ -33,4 +33,9 @@ public class ParticipantGender {
         this.gender = gender;
         return this;
     }
+
+    public ParticipantGender setParticipants(Set<Participant> participants) {
+        this.participants = participants;
+        return this;
+    }
 }

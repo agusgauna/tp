@@ -66,4 +66,19 @@ public class Participant {
         this.address = address;
         return this;
     }
+
+    public Participant setInformation(Information information) {
+        this.information = information;
+        return this;
+    }
+
+    public Participant setCourseParticipants(Set<CourseParticipant> courseParticipants) {
+        this.courseParticipants = courseParticipants;
+        return this;
+    }
+
+    public Participant setParticipantGender(ParticipantGender participantGender) {
+        this.participantGender = participantGender;
+        return this;
+    }
 }

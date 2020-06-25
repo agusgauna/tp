@@ -31,4 +31,5 @@ public class CourseParticipantId implements Serializable {
         this.participantId = participantId;
         return this;
     }
+
 }

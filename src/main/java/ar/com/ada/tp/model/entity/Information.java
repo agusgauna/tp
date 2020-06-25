@@ -73,4 +73,9 @@ public class Information {
         this.howMany = howMany;
         return this;
     }
+
+    public Information setParticipant(Participant participant) {
+        this.participant = participant;
+        return this;
+    }
 }

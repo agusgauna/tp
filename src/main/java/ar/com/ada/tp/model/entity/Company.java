@@ -28,7 +28,7 @@ public class Company {
     @Column(nullable = false, length = 100)
     private String address;
 
-    @Column(nullable = false, columnDefinition = "DATETIME")
+    @Column(nullable = false)
     private Year year;
 
     @Column(nullable = false, length = 50)

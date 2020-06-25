@@ -33,4 +33,9 @@ public class CourseModality {
         this.modality = modality;
         return this;
     }
+
+    public CourseModality setCourses(Set<Course> courses) {
+        this.courses = courses;
+        return this;
+    }
 }

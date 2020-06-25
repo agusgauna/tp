@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
+import java.time.Year;
 import java.util.Date;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class CompanyDto implements Serializable {
     @JsonFormat(pattern = "yyyy")
     @NotNull(message = "year is required")
     @PastOrPresent(message = "the year must be past or present")
-    private Date year;
+    private Year year;
 
     @NotNull(message = "telephone is required")
     private Integer telephone;
@@ -76,7 +77,7 @@ public class CompanyDto implements Serializable {
         return this;
     }
 
-    public CompanyDto setYear(Date year) {
+    public CompanyDto setYear(Year year) {
         this.year = year;
         return this;
     }

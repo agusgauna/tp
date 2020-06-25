@@ -69,4 +69,14 @@ public class Representative {
         this.email = email;
         return this;
     }
+
+    public Representative setCompany(Company company) {
+        this.company = company;
+        return this;
+    }
+
+    public Representative setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+        return this;
+    }
 }

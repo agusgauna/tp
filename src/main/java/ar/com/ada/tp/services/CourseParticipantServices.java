@@ -50,6 +50,10 @@ public class CourseParticipantServices {
 //        if dto.getRequestType() == null {
 //            throw
 //        }
+        if (dto.getRequestType() == null) {
+            throw logicExceptionComponent.throwExceptionEntityIsNull("RequestType", courseId, participantId);
+        }
+
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("Course", courseId));

@@ -53,4 +53,19 @@ public class CourseParticipant {
         this.finished = finished;
         return this;
     }
+
+    public CourseParticipant setId(CourseParticipantId id) {
+        this.id = id;
+        return this;
+    }
+
+    public CourseParticipant setCourse(Course course) {
+        this.course = course;
+        return this;
+    }
+
+    public CourseParticipant setParticipant(Participant participant) {
+        this.participant = participant;
+        return this;
+    }
 }

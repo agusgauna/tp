@@ -60,29 +60,16 @@ public class CompanyServices implements Services<CompanyDto> {
 
     @Override
     public CompanyDto save(CompanyDto dto) {
-        // extraes el id para buscar la cat de la compañia
         Long companyTypeId = dto.getCompanyType().getId();
         Long companyCategoryId = dto.getCategory().getId();
-
-        // se busca la cate en la base de datos
         CompanyType companyType;
-        companyType = companyTypeRepository
-                .findById(companyTypeId)
-                .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("CompanyType", companyTypeId));
+        companyType = companyTypeRepository.findById(companyTypeId).orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("CompanyType", companyTypeId));
         Category category;
         category = categoryRepository.findById(companyCategoryId).orElseThrow(()-> logicExceptionComponent.throwExceptionEntityNotFound("Category", companyCategoryId));
-
-        // se convierte el dto a entity
         Company companyToSave = companyMapper.toEntity(dto, context);
-
-        // antes de guardarlo, se debe settear la cat
         companyToSave.setCompanyType(companyType);
         companyToSave.setCategory(category);
-
-        // seguarda en la base de datos
         Company companySaved = companyRepository.save(companyToSave);
-
-        // se convierte en dto para entregarlo al controlador
         CompanyDto companyDtoSaved = companyMapper.toDto(companySaved, context);
 
         return companyDtoSaved;
