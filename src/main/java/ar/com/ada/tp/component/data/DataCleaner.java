@@ -61,26 +61,29 @@ public class DataCleaner implements ApplicationRunner {
             LOGGER.info("Data Cleaner initializer...\n");
 
             // Para borrar los registros de las tablas y por eso las elimine de Categorydata
-            categoryRepository.deleteAll();
-            categoryRepository.resetAutoincrementValue();
-            companyRepository.deleteAll();
-            companyRepository.resetAutoincrementValue();
-            courseRepository.deleteAll();
-            courseRepository.resetAutoincrementValue();
-            courseModalityRepository.deleteAll();
-            courseModalityRepository.resetAutoincrementValue();
             courseParticipantRepository.deleteAll();
             courseParticipantRepository.resetAutoincrementValue();
-            documentTypeRepository.deleteAll();
-            documentTypeRepository.resetAutoincrementValue();
+            participantRepository.deleteAll();
+            participantRepository.resetAutoincrementValue();
             informationRepository.deleteAll();
             informationRepository.resetAutoincrementValue();
             participantGenderRepository.deleteAll();
             participantGenderRepository.resetAutoincrementValue();
-            participantRepository.deleteAll();
-            participantRepository.resetAutoincrementValue();
+            documentTypeRepository.deleteAll();
+            documentTypeRepository.resetAutoincrementValue();
             representativeRepository.deleteAll();
             representativeRepository.resetAutoincrementValue();
+            courseRepository.deleteAll();
+            courseRepository.resetAutoincrementValue();
+            courseModalityRepository.deleteAll();
+            courseModalityRepository.resetAutoincrementValue();
+            companyRepository.deleteAll();
+            companyRepository.resetAutoincrementValue();
+            categoryRepository.deleteAll();
+            categoryRepository.resetAutoincrementValue();
+
+
+
 
         }
     }
