@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
 @Component
+@Order(0)
 public class DataCleaner implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataCleaner.class);
 

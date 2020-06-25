@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Order(11)
 public class CourseParticipantLoaderData implements ApplicationRunner{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseParticipantLoaderData.class);
