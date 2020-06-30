@@ -5,9 +5,12 @@ import ar.com.ada.tp.services.RepresentativeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -29,10 +32,12 @@ public class RepresentativeController {
         return ResponseEntity.ok(representativeById);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping({"","/"})
-    public ResponseEntity addNewRepresentative (@Valid @RequestBody RepresentativeDto representativeDto) {
+    public ResponseEntity addNewRepresentative (@Valid @RequestBody RepresentativeDto representativeDto) throws URISyntaxException {
         RepresentativeDto representativeSaved = representativeServices.save(representativeDto);
-        return ResponseEntity.ok(representativeSaved);
+        return ResponseEntity.created(new URI("/managers/" + representativeDto.getId()))
+                .body(representativeSaved);
     }
 
     @PutMapping({"/{id}","/{id}/"})

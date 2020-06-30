@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Participant_gender")
+@Table(name = "ParticipantGender")
 public class ParticipantGender {
 
     @Id

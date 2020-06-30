@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "name", "description", "cost", "quota", "scholarship",
-        "count_inscription", "count_quota", "difference", "company", "course_participant", "category", "course_modality"})
+        "count_quota", "company", "course_participant", "category", "course_modality"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CourseDto implements Serializable {
@@ -40,14 +40,7 @@ public class CourseDto implements Serializable {
     @NotNull(message = "scholarship is required")
     private Integer scholarship;
 
-    @NotNull(message = "countInscription is required")
-    private Integer countInscription;
-
-    @NotNull(message = "countQuota is required")
     private Integer countQuota;
-
-    @NotNull(message = "difference is required")
-    private Integer difference;
 
     @JsonIgnoreProperties(value = "courses")
     private CompanyDto company;
@@ -91,18 +84,10 @@ public class CourseDto implements Serializable {
         return this;
     }
 
-    public CourseDto setCountInscription(Integer countInscription) {
-        this.countInscription = countInscription;
-        return this;
-    }
 
     public CourseDto setCountQuota(Integer countQuota) {
         this.countQuota = countQuota;
         return this;
     }
 
-    public CourseDto setDifference(Integer difference) {
-        this.difference = difference;
-        return this;
-    }
 }

@@ -9,6 +9,7 @@ import ar.com.ada.tp.services.ParticipantServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,6 +52,7 @@ public class CourseParticipantController {
                 .body(participantDtoSaved);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping({ "/course/{courseId}/participant/{participantId}", "/course/{courseId}/participant/{participantId}/" })
     public ResponseEntity addNewRequest(
             @Valid @RequestBody CourseParticipantDto courseParticipantDto,

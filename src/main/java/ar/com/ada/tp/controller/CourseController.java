@@ -7,9 +7,12 @@ import ar.com.ada.tp.services.CourseServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -70,10 +73,12 @@ public class CourseController {
         return ResponseEntity.ok(courseById);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping({"","/"})
-    public ResponseEntity addNewCourse (@Valid @RequestBody CourseDto courseDto) {
+    public ResponseEntity addNewCourse (@Valid @RequestBody CourseDto courseDto) throws URISyntaxException {
         CourseDto courseSaved = courseServices.save(courseDto);
-        return ResponseEntity.ok(courseSaved);
+        return ResponseEntity.created(new URI("/courses/" + courseDto.getId()))
+                .body(courseSaved);
     }
 
     @PutMapping({"/{id}","/{id}/"})
@@ -82,6 +87,7 @@ public class CourseController {
         return ResponseEntity.ok(courseUpdated);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping({"/{id}","/{id}/"})
     public ResponseEntity deleteCourse (@PathVariable Long id){
         courseServices.delete(id);

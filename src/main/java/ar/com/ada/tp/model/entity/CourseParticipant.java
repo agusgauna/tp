@@ -28,10 +28,10 @@ public class CourseParticipant {
     @Column
     private Boolean status;
 
-    @Column(nullable = false, length = 2)
+    @Column
     private Integer percent;
 
-    @Column(nullable = false)
+    @Column
     private Boolean finished;
 
     public CourseParticipant setRequestType(String requestType) {

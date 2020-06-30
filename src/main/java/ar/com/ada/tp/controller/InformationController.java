@@ -6,6 +6,7 @@ import ar.com.ada.tp.services.InformationServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class InformationController {
         return ResponseEntity.ok(informationById);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping({"","/"})
     public ResponseEntity addNewInformation (@Valid @RequestBody InformationDto informationDto) {
         InformationDto informationSaved = informationServices.save(informationDto);
@@ -42,6 +44,7 @@ public class InformationController {
         return ResponseEntity.ok(informationUpdated);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping({"/{id}","/{id}/"})
     public ResponseEntity deleteInformation (@PathVariable Long id){
         informationServices.delete(id);

@@ -5,6 +5,7 @@ import ar.com.ada.tp.services.ParticipantServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +32,7 @@ public class ParticipantController {
         return ResponseEntity.ok(participantById);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping({"","/"})
     public ResponseEntity addNewParticipant (@Valid @RequestBody ParticipantDto participantDto) throws URISyntaxException {
         ParticipantDto participantSaved = participantServices.save(participantDto);
@@ -44,12 +46,14 @@ public class ParticipantController {
         return ResponseEntity.ok(participantUpdated);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping({"/{id}","/{id}/"})
     public ResponseEntity deleteParticipant (@PathVariable Long id){
         participantServices.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping({"{participantId}/informations/{informationId}","{participantId}/informations/{informationId}/"})
     public ResponseEntity addInformationToParticipant(@PathVariable Long participantId, @PathVariable Long informationId) {
         ParticipantDto participantDtoWithNewInformation = participantServices.addInformationToParticipant(informationId, participantId);

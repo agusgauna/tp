@@ -5,9 +5,12 @@ import ar.com.ada.tp.services.CompanyServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -18,7 +21,7 @@ public class CompanyController {
     private CompanyServices companyServices;
 
     @GetMapping({"","/"})
-    public ResponseEntity getAllCompany() {
+    public ResponseEntity getAllCompanies() {
         List<CompanyDto> all = companyServices.findAll();
         return ResponseEntity.ok(all);
     }
@@ -29,10 +32,12 @@ public class CompanyController {
         return ResponseEntity.ok(companyById);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping({"","/"})
-    public ResponseEntity addNewCompany (@Valid @RequestBody CompanyDto companyDto) {
+    public ResponseEntity addNewCompany (@Valid @RequestBody CompanyDto companyDto) throws URISyntaxException {
         CompanyDto companySaved = companyServices.save(companyDto);
-        return ResponseEntity.ok(companySaved);
+        return ResponseEntity.created(new URI("/companies/" + companyDto.getId()))
+                .body(companySaved);
     }
 
     @PutMapping({"/{id}","/{id}/"})
@@ -41,6 +46,7 @@ public class CompanyController {
         return ResponseEntity.ok(companyUpdated);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping({"/{id}","/{id}/"})
     public ResponseEntity deleteCompany (@PathVariable Long id){
         companyServices.delete(id);

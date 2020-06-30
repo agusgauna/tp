@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Document_type")
+@Table(name = "DocumentType")
 public class DocumentType {
 
     @Id

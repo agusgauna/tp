@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Course_modality")
+@Table(name = "CourseModality")
 public class CourseModality {
 
     @Id

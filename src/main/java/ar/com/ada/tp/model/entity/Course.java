@@ -23,23 +23,17 @@ public class Course {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private Integer cost;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private Integer quota;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private Integer scholarship;
 
-    @Column(nullable = false, length = 10)
-    private Integer countInscription;
-
-    @Column(nullable = false, length = 10)
+    @Column
     private Integer countQuota;
-
-    @Column(nullable = false, length = 10)
-    private Integer difference;
 
     @ManyToOne
     @JoinColumn(name = "Company_id", nullable = true)
@@ -86,18 +80,8 @@ public class Course {
         return this;
     }
 
-    public Course setCountInscription(Integer countInscription) {
-        this.countInscription = countInscription;
-        return this;
-    }
-
     public Course setCountQuota(Integer countQuota) {
         this.countQuota = countQuota;
-        return this;
-    }
-
-    public Course setDifference(Integer difference) {
-        this.difference = difference;
         return this;
     }
 

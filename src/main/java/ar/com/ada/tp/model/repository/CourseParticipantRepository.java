@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface CourseParticipantRepository extends JpaRepository<CourseParticipant, CourseParticipantId> {
 
     @Modifying
-    @Query(value = "ALTER TABLE CourseParticipant AUTO_INCREMENT = 1", nativeQuery = true)
+    @Query(value = "ALTER TABLE Course_has_Participant AUTO_INCREMENT = 1", nativeQuery = true)
     void resetAutoincrementValue();
 }

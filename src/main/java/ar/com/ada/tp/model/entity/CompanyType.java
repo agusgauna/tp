@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Company_type")
+@Table(name = "CompanyType")
 public class CompanyType {
 
     @Id

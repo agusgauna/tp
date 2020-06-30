@@ -63,16 +63,13 @@ public class CourseParticipantLoaderData implements ApplicationRunner{
                             .setId(courseParticipantIdOne)
                             .setCourse(courseOne)
                             .setParticipant(participantOne)
-                            .setRequestType("Beca")
-                            .setPercent(75)
-                            .setFinished(false),
+                            .setRequestType("Beca"),
+
                     new CourseParticipant()
                             .setId(courseParticipantIdTwo)
                             .setCourse(courseTwo)
                             .setParticipant(participantTwo)
                             .setRequestType("Pago")
-                            .setPercent(0)
-                            .setFinished(false)
             );
             courseParticipantRepository.saveAll(courseParticipantList);
         }

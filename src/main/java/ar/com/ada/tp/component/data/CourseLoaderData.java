@@ -41,10 +41,7 @@ public class CourseLoaderData implements ApplicationRunner {
                             .setDescription("Descripcion 1")
                             .setCost(80000)
                             .setQuota(50)
-                            .setScholarship(20)
-                            .setCountInscription(10)
-                            .setCountQuota(5)
-                            .setDifference(35),
+                            .setScholarship(20),
             new Course()
                     .setId(2L)
                     .setName("Desarrollo Frontend")
@@ -52,9 +49,6 @@ public class CourseLoaderData implements ApplicationRunner {
                     .setCost(80000)
                     .setQuota(50)
                     .setScholarship(20)
-                    .setCountInscription(20)
-                    .setCountQuota(5)
-                    .setDifference(25)
             );
             courseRepository.saveAll(courseList);
         }
